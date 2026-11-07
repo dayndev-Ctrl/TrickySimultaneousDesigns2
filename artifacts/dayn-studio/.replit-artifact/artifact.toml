@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "DAYN & ChatGPT — 3D Studio"
+description = "A mobile-friendly browser-based Three.js studio for creating and editing primitive 3D scenes, with a safe structured scene-command interface for future AI integration."
+version = "1.0.0"
+id = "artifacts/dayn-studio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23647
+
+[services.development]
+run = "pnpm --filter @workspace/dayn-studio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dayn-studio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dayn-studio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23647"
+BASE_PATH = "/"
